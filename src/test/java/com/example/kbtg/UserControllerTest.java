@@ -4,13 +4,19 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.*;
+
+import java.util.Optional;
+
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import com.example.kbtg.user.ErrorResponse;
 import com.example.kbtg.user.MyUser;
+import com.example.kbtg.user.UserNotFoundException;
 import com.example.kbtg.user.UserRepository;
 import com.example.kbtg.user.UserResponse;
 
@@ -20,13 +26,14 @@ public class UserControllerTest {
 	@Autowired
 	private TestRestTemplate restTemplate;
 	
-	@Autowired
+//	@Autowired
+	@MockBean
 	private UserRepository userRepository;
 	
-	@AfterEach
-	public void clearUser() {
-		userRepository.deleteAll();
-	}
+//	@AfterEach
+//	public void clearUser() {
+//		userRepository.deleteAll();
+//	}
 	
 	@Test
 	public void success_get_user_id_1() {
@@ -35,7 +42,8 @@ public class UserControllerTest {
 		supakorn.setId(1);
 		supakorn.setName("supakorn");
 		supakorn.setAge(30);
-		userRepository.save(supakorn);
+		when(userRepository.findById(1)).thenReturn(Optional.of(supakorn));
+//		userRepository.save(supakorn);
 		// Act
 		UserResponse response = restTemplate.getForObject("/user/1", UserResponse.class);
 		// Assert
