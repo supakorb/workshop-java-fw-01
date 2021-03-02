@@ -44,10 +44,11 @@ public class UserServiceTest {
 		// Arrange
 		when(userRepository.findById(15)).thenThrow(new UserNotFoundException("User not found id = 15"));
 		// Act
-		UserService userService = new UserService(userRepository);
 		Exception exception = assertThrows(UserNotFoundException.class, () -> {
+			UserService userService = new UserService(userRepository);
 			userService.getInfo(15);
 		});
+		// Assert
 		assertEquals("User not found id = 15", exception.getMessage());
 	}
 }

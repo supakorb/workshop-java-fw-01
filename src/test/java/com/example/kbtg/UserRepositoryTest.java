@@ -30,9 +30,7 @@ public class UserRepositoryTest {
 		Optional<MyUser> user = userRepository.findById(1);
 		// Assert
 		assertTrue(user.isPresent());
-		
-		MyUser expected = new MyUser(1, "supakorn", 30);
-        assertEquals(expected, user.get());
+        assertEquals(new MyUser(1, "supakorn", 30), user.get());
 	}
 	
 	@Test
